@@ -21,17 +21,30 @@ $f3->route('GET /', function() {
 });
 
 // Define a survey route
-$f3->route('GET /survey', function($f3) {
+$f3->route('GET|POST /survey', function($f3) {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // Add the data to the session array
         $name = $_POST['name'];
         $f3->set('SESSION.name', $name);
+        if (isset($_POST["questions"])) {
+            $questions = implode(", ", $_POST["questions"]);
+            $f3->set("SESSION.questions", $questions);
+        }
+        // Send the user to the next page
+        $f3->reroute("summary");
     }
-    $checkboxes = getCheckboxes();
-    $f3->set('checkboxes', $checkboxes);
+    $questions = getQuestions();
+    $f3->set('questions', $questions);
     
     $view = new Template();
     echo $view->render('views/survey.html');
+});
+
+// Define a summary route
+$f3->route('GET /summary', function() {
+    // Render a view page
+    $view = new Template();
+    echo $view->render('views/summary.html');
 });
 
 // Run Fat-Free

@@ -13,8 +13,8 @@
         <input type="text" class="form-control" id="name" name="name"><br>
         <p>Check all that apply:</p>
         <div class="form-check">
-            <repeat group="{{ @checkboxes }}" value="{{ @question }}">
-                <label><input type="checkbox" name="questions[]" value="{{ @question }}"> {{ ucwords(@question) }}</label><br>
+            <repeat group="{{ @questions }}" value="{{ @question }}">
+                <label><input type="checkbox" name="questions[]" value="{{ @question }}"> {{ @question }}</label><br>
             </repeat>
         </div><br>
 
